@@ -1,10 +1,9 @@
 package com.alienslab.screen;
 
-import android.util.Log;
-
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.UiThreadUtil;
 
 /**
  * Created by Bilal on 6/13/2017.
@@ -22,9 +21,13 @@ public class ScreenModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void setScreenTitle(String title) {
-        Log.d("Screen", "Setting screen title: "+title);
-        getCurrentActivity().setTitle(title);
+    public void setScreenTitle(final String title) {
+        UiThreadUtil.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                getCurrentActivity().setTitle(title);
+            }
+        });
     }
 
 }
